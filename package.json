@@ -1,0 +1,24 @@
+{
+  "name": "crunchyroll-api",
+  "version": "1.0.0",
+  "description": "a nodejs crunchyroll api",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mssjim/crunchyroll-api.git"
+  },
+  "keywords": [
+    "crunchyroll",
+    "api",
+    "beta-crunchyroll"
+  ],
+  "author": "Mssjim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mssjim/crunchyroll-api/issues"
+  },
+  "homepage": "https://github.com/Mssjim/crunchyroll-api#readme"
+}
