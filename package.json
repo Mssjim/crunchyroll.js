@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/Mssjim/crunchyroll-api/issues"
   },
-  "homepage": "https://github.com/Mssjim/crunchyroll-api#readme"
+  "homepage": "https://github.com/Mssjim/crunchyroll-api#readme",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
 }
