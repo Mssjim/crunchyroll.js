@@ -1,0 +1,21 @@
+{
+    "token": "https://beta-api.crunchyroll.com/auth/v1/token",
+
+    "index": "https://beta-api.crunchyroll.com/index/v2",
+    "profile": "https://beta-api.crunchyroll.com/accounts/v1/me/profile",
+
+    "series": "https://beta-api.crunchyroll.com/cms/v2{}/series/{}?locale=pt-BR&{}",
+    "seasons": "https://beta-api.crunchyroll.com/cms/v2{}/seasons?series_id={}&locale=pt-BR&{}",
+    "episodes": "https://beta-api.crunchyroll.com/cms/v2{}/episodes?season_id={}&locale=pt-BR&{}",
+    "streams": "https://beta-api.crunchyroll.com{}?locale=pt-BR&{}",
+    
+    "categories": "https://beta-api.crunchyroll.com/content/v1/tenant_categories?guid={}&locale=pt-BR",
+    "rate": "https://beta-api.crunchyroll.com/content-reviews/v2/user/{}/rating/series/{}",
+    "similar": "https://beta-api.crunchyroll.com/content/v1/{}/similar_to?guid={}&locale=pt-BR&n=10",
+    
+    "search": "https://beta-api.crunchyroll.com/content/v1/search?q:{}",
+    "orderByUpdateAnimes": "https://beta-api.crunchyroll.com/content/v1/browse?start=0&sort_by=newly_added&n=10&locale=pt-BR",
+    "orderByAlphabetAnimes": "https://beta-api.crunchyroll.com/content/v1/browse?start=0&sort_by=alphabetical&n=5000&locale=pt-BR",
+
+    "news_feed": "https://beta-api.crunchyroll.com/content/v1/news_feed"
+}
