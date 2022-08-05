@@ -1,7 +1,9 @@
 const fetch = require('./src/fetcher.js');
 const urls = require('./src/urls.json');
 
-let client = {};
+let client = {
+    getQuery: () => {}
+};
 
 String.prototype.format = function () {
     var i = 0, args = arguments;
@@ -12,8 +14,19 @@ String.prototype.format = function () {
 
 async function checkLogin() {
     if(!client.login) throw new Error('You must login first');
-    if(Date.now() - client.time > 1000*60*4);
-    await login(client.login.email, client.login.password);
+    if(Date.now() - client.time > 1000*60*4)
+        await login(client.login.email, client.login.password);
+}
+
+async function makeRequest(url) {
+    await checkLogin();
+    const {body} = await fetch('GET', url);
+
+    if(!body || body.__class__ == 'error') {
+        console.log(body);
+        throw new Error(body.message);
+    }
+    return body;
 }
 
 async function getToken(email, password) {
@@ -61,7 +74,17 @@ async function login(email, password, locale = 'en-US') {
     console.log('✔ Autenticado!');
 }
 
+
+async function getAnime(animeId) {
+    return await makeRequest(urls.series.format(
+        client.bucket,
+        animeId,
+        client.getQuery()
+    ));
+}
+
 module.exports = {
     client,
-    login
+    login,
+    getAnime,
 }
