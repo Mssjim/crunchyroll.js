@@ -48,12 +48,13 @@ async function authenticate() {
 
     client.bucket = body.cms.bucket;
     client.cms = body.cms;
-    client.getQuery = () => `Signature=${client.cms.signature}&Policy=${client.cms.policy}&Expires=${client.cms.expires}&Key-Pair-Id=${client.cms.key_pair_id}`;
+    client.getQuery = () => `Signature=${client.cms.signature}&Policy=${client.cms.policy}&Expires=${client.cms.expires}&Key-Pair-Id=${client.cms.key_pair_id}&locale=${client.locale}`;
 }
 
-async function login(email, password) {
+async function login(email, password, locale = 'en-US') {
     client.login = { email, password };
     client.time = Date.now();
+    client.locale = locale;
     await getToken(email, password);
     await authenticate();
 
