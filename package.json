@@ -4,7 +4,7 @@
   "description": "a nodejs crunchyroll api",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Why test? xD\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -13,7 +13,10 @@
   "keywords": [
     "crunchyroll",
     "api",
-    "beta-crunchyroll"
+    "beta-crunchyroll",
+    "anime",
+    "series",
+    "funimation"
   ],
   "author": "Mssjim",
   "license": "MIT",
