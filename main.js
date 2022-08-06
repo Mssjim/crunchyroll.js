@@ -2,6 +2,7 @@ const fetch = require('./src/fetcher.js');
 const urls = require('./src/urls.json');
 
 let client = {
+    time: 0,
     getQuery: () => {}
 };
 
@@ -69,11 +70,11 @@ async function authenticate() {
 
 async function login(email, password, locale = 'en-US') {
     client.login = { email, password };
-    client.time = Date.now();
     client.locale = locale;
     await getToken(email, password);
     await authenticate();
-
+    
+    client.time = Date.now();
     console.log('✔ Autenticado!');
 }
 
