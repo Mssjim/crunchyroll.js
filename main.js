@@ -14,14 +14,15 @@ String.prototype.format = function () {
 };
 
 async function checkLogin() {
-    if(!client.login) throw new Error('You must login first');
+    if(!client.login)
+        throw new Error('You must login first');
     if(Date.now() - client.time > 1000*60*4)
         await login(client.login.email, client.login.password);
 }
 
 async function makeRequest(url) {
     await checkLogin();
-    const {body} = await fetch('GET', url, {
+    const { body } = await fetch('GET', url, {
         'Authorization': client.access_token,
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
     });
@@ -35,7 +36,7 @@ async function makeRequest(url) {
 
 async function getToken(email, password) {
     const headers = {
-        'Authorization': "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
+        'Authorization': "Basic b2VkYXJteHN0bGgxanZhd2ltbnE6OWxFaHZIWkpEMzJqdVY1ZFc5Vk9TNTdkb3BkSnBnbzE=",
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
     };
 
@@ -46,13 +47,31 @@ async function getToken(email, password) {
         'scope': 'offline_access'
     });
 
-    const {body} = await fetch('POST', urls.token, headers, data.toString());
+    try {
+        if(!email || !password)
+            throw new Error('Email and password are required');
+        const { body } = await fetch('POST', urls.token, headers, data.toString());
 
-    client.id = body.account_id;
-    client.access_token = `${body.token_type} ${body.access_token}`;
-    client.refresh_token = body.refresh_token;
-
-    if(!client.id) throw new Error('Invalid credentials');
+        if (body.error)
+            throw new Error(body.error);
+    
+        if (!body.account_id)
+            throw new Error('Invalid credentials');
+    
+        client.id = body.account_id;
+        client.access_token = `${body.token_type} ${body.access_token}`;
+        client.refresh_token = body.refresh_token;
+    
+        return {
+            success: true,
+            message: 'Login successful',
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message
+        };
+    }
 }
 
 async function authenticate() {
@@ -60,22 +79,55 @@ async function authenticate() {
         'Authorization': client.access_token,
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
     };
-    const {body} = await fetch('GET', urls.index, headers);
-    if(body.error) throw new Error(body.error);
 
-    client.bucket = body.cms.bucket;
-    client.cms = body.cms;
-    client.getQuery = () => `Signature=${client.cms.signature}&Policy=${client.cms.policy}&Expires=${client.cms.expires}&Key-Pair-Id=${client.cms.key_pair_id}&locale=${client.locale}`;
+    try {
+        const { body } = await fetch('GET', urls.index, headers);
+        if (body.error)
+            throw new Error(body.error);
+    
+        client.bucket = body.cms.bucket;
+        client.cms = body.cms;
+        client.getQuery = () => `Signature=${client.cms.signature}&Policy=${client.cms.policy}&Expires=${client.cms.expires}&Key-Pair-Id=${client.cms.key_pair_id}&locale=${client.locale}`;
+
+        return {
+            success: true,
+            message: 'Authenticated'
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message
+        };
+    }
 }
 
 async function login(email, password, locale = 'en-US') {
-    client.login = { email, password };
     client.locale = locale;
-    await getToken(email, password);
-    await authenticate();
+    try {
+        const getTokenResult = await getToken(email, password);
+        if (!getTokenResult.success)
+            throw new Error(getTokenResult.message + " - Check your credentials.");
     
-    client.time = Date.now();
-    console.log('✔ Autenticado!');
+        const authenticateResult = await authenticate();
+        if (!authenticateResult.success)
+            throw new Error(authenticateResult.message + " - Error authenticating.");
+        
+        client.time = Date.now();
+        client.login = { email, password };
+
+        return {
+            success: true,
+            message: 'Login successful',
+            client
+        };
+    } catch (error) {
+        client.login = { email, password };
+        return {
+            success: false,
+            message: error.message,
+            client
+        };
+    }
 }
 
 async function getProfile() {
