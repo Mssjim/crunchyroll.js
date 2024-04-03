@@ -36,7 +36,7 @@ const cr = require('crunchyroll.js');
     
     // Get anime seasons and eps
     const { items: seasons } = await cr.getSeasons(anime.id);
-    const eps = await cr.getEps(seasons[0].id);
+    const eps = await cr.getEpisodes(seasons[0].id);
 })();
 ```
 
