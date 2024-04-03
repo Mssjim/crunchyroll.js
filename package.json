@@ -4,7 +4,7 @@
   "description": "a nodejs crunchyroll api",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Why test? xD\" && exit 1"
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,8 @@
   "homepage": "https://github.com/Mssjim/crunchyroll.js#readme",
   "dependencies": {
     "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "jasmine": "^5.1.0"
   }
 }
