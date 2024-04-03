@@ -28,6 +28,7 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
+    "dotenv": "^16.4.5",
     "jasmine": "^5.1.0"
   }
 }
